@@ -1,17 +1,24 @@
-#Angle between two pairs of points. To use with a spiral, include one point in each.
-#Inputs are to matricies, output is a single value of the angle in degrees.
-#Depends on aspace package.
+angle<-function(center = c(0, 0), pointOne = c(2, 2), pointTwo = c(2, -2)){
 
-angle<-function(dummy.one=matrix(c(0,0,2,2),ncol=2),dummy.two=matrix(c(0,0,2,-2),ncol=2))
-{
+# Computes the angle between two points with one center point. Used to calculate distance 
+# Arguments:
+#  center:    Center point of a spiral or the intersection of the two lines.
+#  pointOne:  First outer point (x,y)
+#  pointTwo:  Second outer point (x,y)
+  
+# Returns:
+#  angle: angle between two lines - first to second
+
 library(aspace)
 
-#x1,y1,x2,y2
+lineOne <- matrix(c(center, pointOne), ncol = 2, byrow = TRUE)
+lineTwo <- matrix(c(center, pointTwo), ncol = 2, byrow = TRUE)
+ 
+slopeOne <- (lineOne[1, 2] - lineOne[2, 2]) / (lineOne[1, 1] - lineOne[2, 1])
+slopeTwo <- (lineTwo[1, 2] - lineTwo[2, 2]) / (lineTwo[1,1] - lineTwo[2, 1])
 
-m1<-(dummy.one[1,2]-dummy.one[2,2])/(dummy.one[1,1]-dummy.one[2,1])
-m2<-(dummy.two[1,2]-dummy.two[2,2])/(dummy.two[1,1]-dummy.two[2,1])
-
-angle<-atan_d(abs((m1-m2)/(1+m1*m2)))
+angle<-atan_d(abs((slopeOne - slopeTwo) / (1 + slopeOne * slopeTwo)))
 
 return(angle)
+  
 }
