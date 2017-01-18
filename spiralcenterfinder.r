@@ -1,5 +1,39 @@
-#### New XY corrordinants
+spiralcenter <- function( data, step = 2){
+# Determines the center of a spiral made of limited points
 
+# Arguments:
+#  data:            dataframe or matrix of (x, y) points
+#  step:            step for search smaller runs longer
+
+#  Center.Point:    pair of points that identify the center
+
+CentroidX <- mean(data$X)
+CentroidY <- mean(data$Y)
+  
+ClosestX <- which.min(abs(data$X - CentroidX))
+ClosestY <- which.min(abs(data$Y - CentroidY))
+
+DistX <- abs(CentroidX - ClosestX)
+DistY <- abs(CentroidY - ClosestY)
+
+SearchX <- seq(from = (CentroidX - DistX), to = (CentroidX - DistX), seq = step)
+SearchY <- seq(from = (CentroidY - DistY), to = (CentroidY - DistY), seq = step)
+
+SearchGrid <- expand.grid(SearchX, SearchY)
+
+totalRotation <- vector(length = nrow(SearchGrid))
+
+
+
+for(k in 1:length(totalRotation)){
+  
+  for(j in 1:nrow(data)){
+    
+    angle(center = SearchGrid[k], pointOne = data, pointTwo = data)
+
+    }
+  }
+  
 setwd('G:/Dropbox/Dropbox/Embryonic Ammonite')
 
 xyframe<-read.csv('SIMSpits.csv',header=TRUE)
@@ -92,3 +126,4 @@ pdf('pitnumbers.pdf',width=16,height=16)
 plot(xyframe$X.1,xyframe$Y,cex=.25)
 textxy(xyframe$X.1,xyframe$Y,xyframe$X)
 dev.off()
+}
